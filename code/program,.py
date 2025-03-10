@@ -27,3 +27,31 @@ Example:
 '''
 
 # TODO: Write code
+
+
+import json
+from packaging import parse_packaging
+
+def process_file(input_filename: str, output_filename: str):
+    """
+    Reads a file with package descriptions, parses them, and writes them to a JSON file.
+    """
+    parsed_packages = []
+
+    with open(input_filename, "r") as file:
+        for line in file:
+            line = line.strip()  
+            if line:  
+                parsed_packages.append(parse_packaging(line))
+
+    
+    with open(output_filename, "w") as json_file:
+        json.dump(parsed_packages, json_file, indent=4)
+
+    print(f" Processed {len(parsed_packages)} packages. Output saved to {output_filename}")
+
+if __name__ == "__main__":
+   
+    input_file = "packaging_data.txt"  
+    output_file = "parsed_packages.json"
+    process_file(input_file, output_file)

@@ -62,3 +62,34 @@ if __name__ == '__main__':
     package_total = calc_total_units(package)
     unit = get_unit(package)
     print(f"{package_total} {unit} total")
+
+
+
+    import json
+
+def parse_packaging(line: str) -> dict:
+    """
+    Parses a single line of package description into a dictionary.
+    
+    Example:
+    "12 eggs in 1 carton / 3 cartons in 1 box"
+    Becomes:
+    {"eggs": 12, "cartons": 3, "box": 1}
+    """
+    items = line.split(" / ")
+    package_dict = {}
+
+    for item in items:
+        parts = item.split(" in ")
+        if len(parts) == 2:
+            quantity, unit = parts[0].strip().split(" ", 1)
+            package_dict[unit] = int(quantity.strip())
+
+    return package_dict
+
+
+if __name__ == "__main__":
+    
+    test_line = "12 eggs in 1 carton / 3 cartons in 1 box"
+    parsed_data = parse_packaging(test_line)
+    print(parsed_data)
